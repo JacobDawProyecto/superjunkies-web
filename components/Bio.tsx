@@ -1,4 +1,5 @@
 import { PROFILE, TRACKS } from "@/lib/tracks";
+import CountUp from "./CountUp";
 
 export default function Bio() {
   return (
@@ -35,18 +36,20 @@ export default function Bio() {
             </figcaption>
           </figure>
           {[
-            { k: "2004", v: "empiezan a pinchar" },
-            { k: `${TRACKS.length}`, v: "temas publicados" },
-            { k: "∞", v: "morro indie" },
-            { k: "DIY", v: "Nosotrosmismos REC" },
-            { k: "CLUB", v: "formato natural" },
-            { k: "ES", v: "base España" },
+            { k: "2004", v: "empiezan a pinchar", count: false },
+            { k: `${TRACKS.length}`, v: "temas publicados", count: true },
+            { k: "∞", v: "morro indie", count: false },
+            { k: "DIY", v: "Nosotrosmismos REC", count: false },
+            { k: "CLUB", v: "formato natural", count: false },
+            { k: "ES", v: "base España", count: false },
           ].map((s) => (
             <div
               key={s.k + s.v}
-              className="rounded-2xl border border-white/10 bg-[#0a0a0b] p-4 text-center"
+              className="rounded-2xl border border-white/10 bg-[#0a0a0b] p-4 text-center transition hover:border-[#d4ff3f]/50 hover:scale-105"
             >
-              <p className="font-display text-2xl text-[#d4ff3f]">{s.k}</p>
+              <p className="font-display text-2xl text-[#d4ff3f]">
+                {s.count ? <CountUp to={TRACKS.length} /> : s.k}
+              </p>
               <p className="mt-1 text-xs text-zinc-400">{s.v}</p>
             </div>
           ))}

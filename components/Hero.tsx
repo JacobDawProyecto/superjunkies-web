@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { PROFILE, TRACKS } from "@/lib/tracks";
 import { usePlayer } from "./PlayerProvider";
 import Socials from "./Socials";
 
 export default function Hero() {
   const { playTrack, currentIndex, isPlaying } = usePlayer();
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const featured = TRACKS[0];
 
   return (
@@ -50,8 +52,26 @@ export default function Hero() {
             Destacado: {featured.artist} — {featured.title} ({featured.year})
           </p>
         </div>
-        <div className="relative">
+        <div
+          className="relative"
+          style={{ perspective: "1000px" }}
+          onMouseMove={(e) => {
+            const r = e.currentTarget.getBoundingClientRect();
+            setTilt({
+              x: (e.clientX - r.left) / r.width - 0.5,
+              y: (e.clientY - r.top) / r.height - 0.5,
+            });
+          }}
+          onMouseLeave={() => setTilt({ x: 0, y: 0 })}
+        >
           <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-[#d4ff3f]/25 via-transparent to-[#ff3fd4]/25 blur-xl animate-gradient" aria-hidden />
+          <div
+            className="relative transition-transform duration-200 ease-out will-change-transform"
+            style={{
+              transform: `rotateY(${tilt.x * 10}deg) rotateX(${-tilt.y * 10}deg)`,
+              transformStyle: "preserve-3d",
+            }}
+          >
           <div className="relative animate-float">
             {/* Portada: logo oficial en plan póster */}
             <div className="rotate-2 rounded-2xl bg-white p-4 pb-3 shadow-2xl">
@@ -77,8 +97,32 @@ export default function Hero() {
             <span className="absolute bottom-16 -right-3 -rotate-6 rounded-full bg-[#d4ff3f] px-3 py-1.5 text-xs font-black text-black shadow-lg animate-wiggle">
               {TRACKS.length} TEMAS
             </span>
+            {/* Insignia giratoria: play del destacado */}
+            <button
+              onClick={() => playTrack(0)}
+              aria-label="Escuchar tema destacado"
+              className="absolute -bottom-10 -right-2 h-28 w-28 transition hover:scale-110 sm:-right-5"
+            >
+              <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full animate-spin-slow" aria-hidden>
+                <defs>
+                  <path
+                    id="hero-circle"
+                    d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"
+                    fill="none"
+                  />
+                </defs>
+                <text className="fill-[#d4ff3f]" fontSize="10" fontWeight="bold" letterSpacing="2.5">
+                  <textPath href="#hero-circle">
+                    SUPERJUNKIES • DESDE 2004 •
+                  </textPath>
+                </text>
+              </svg>
+              <span className="absolute inset-0 m-auto grid h-12 w-12 place-items-center rounded-full bg-[#d4ff3f] text-xl text-black glow-lime">
+                {currentIndex === 0 && isPlaying ? "⏸" : "▶"}
+              </span>
+            </button>
           </div>
-          <div className="relative mt-12 flex items-center justify-between rounded-2xl border border-white/10 bg-[#121214] px-4 py-3">
+          <div className="relative mt-16 flex items-center justify-between rounded-2xl border border-white/10 bg-[#121214] px-4 py-3">
             <div>
               <p className="text-sm font-bold">SuperjunkieJack</p>
               <p className="text-xs text-zinc-400">superjunkies · {TRACKS.length} tracks</p>
@@ -86,6 +130,7 @@ export default function Hero() {
             <Socials compact />
           </div>
         </div>
+      </div>
       </div>
       <div className="relative border-y border-white/10 bg-[#121214]/80 overflow-hidden">
         <div className="animate-marquee whitespace-nowrap py-2 text-xs tracking-[0.25em] text-zinc-400">

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { TRACKS, type TrackType } from "@/lib/tracks";
 import { usePlayer } from "./PlayerProvider";
 
-const FILTERS: Array<"Todos" | TrackType> = ["Todos", "Remix", "Edit", "Original", "Mixtape"];
+const FILTERS: Array<"Todos" | TrackType> = ["Todos", "Remix", "Edit", "Original", "Mixtape", "Mashup"];
 
 export default function TrackGrid() {
   const { playTrack, currentIndex, isPlaying } = usePlayer();
@@ -35,6 +35,11 @@ export default function TrackGrid() {
             Los {TRACKS.length} temas de tu SoundCloud. Pulsa play para escucharlos aquí
             (reproductor custom) o ábrelos en SoundCloud.
           </p>
+          <p className="mt-2 text-xs text-zinc-500">
+            Nota: SoundCloud limita a vista previa de 0:30 los remixes con audio
+            comercial (Coldplay, Apparat…). Si un tema marca “VISTA PREVIA” en el
+            reproductor, es restricción de SoundCloud, no de esta web.
+          </p>
         </div>
         <input
           value={query}
@@ -62,16 +67,17 @@ export default function TrackGrid() {
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {list.map((t) => {
+        {list.map((t, i) => {
           const active = currentIndex === t.index && isPlaying;
           return (
             <article
               key={t.id}
-              className={`group overflow-hidden rounded-2xl border bg-[#121214] transition hover:-translate-y-1 ${
+              className={`card-enter group overflow-hidden rounded-2xl border bg-[#121214] transition hover:-translate-y-1 ${
                 currentIndex === t.index
                   ? "border-[#d4ff3f]/60"
                   : "border-white/10 hover:border-white/25"
               }`}
+              style={{ animationDelay: `${(i % 12) * 60}ms` }}
             >
               <div className="relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -92,7 +98,15 @@ export default function TrackGrid() {
                 </span>
                 {currentIndex === t.index && (
                   <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-[#d4ff3f] px-2.5 py-1 text-[11px] font-black text-black animate-bounce-soft">
-                    <span className="h-1.5 w-1.5 rounded-full bg-black animate-pulse-glow" />
+                    <span className="flex h-3 items-end gap-[2px]" aria-hidden>
+                      {[0, 1, 2].map((b) => (
+                        <span
+                          key={b}
+                          className="w-[2.5px] rounded-full bg-black eq-bar"
+                          style={{ height: `${7 + ((b * 4) % 7)}px`, animationDelay: `${b * 0.18}s` }}
+                        />
+                      ))}
+                    </span>
                     SONANDO
                   </span>
                 )}

@@ -27,6 +27,7 @@ export default function GlobalPlayer() {
     currentIndex,
     isPlaying,
     hasStarted,
+    isPreview,
     position,
     duration,
     toggle,
@@ -72,9 +73,15 @@ export default function GlobalPlayer() {
                 · pulsa play
               </span>
             )}
+            {isPreview && (
+              <span className="ml-2 rounded-full bg-[#ff3fd4] px-2 py-0.5 text-[10px] font-black text-black align-middle">
+                VISTA PREVIA 0:30
+              </span>
+            )}
           </p>
           <p className="truncate text-xs text-zinc-400">
             {track.artist} · {fmt(position)} / {fmt(duration)}
+            {isPreview && " · SoundCloud limita este remix con audio comercial"}
           </p>
         </div>
         <div className="flex items-center gap-1.5">

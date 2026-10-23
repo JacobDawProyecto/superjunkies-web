@@ -4,6 +4,11 @@ import Socials from "./Socials";
 export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-black pb-28">
+      <div className="overflow-hidden border-b border-white/10">
+        <div className="animate-marquee-reverse whitespace-nowrap py-2 text-xs tracking-[0.25em] text-zinc-600">
+          {"SUPERJUNKIES · JACOB Y ADRIÁN · NOSOTROSMISMOSRECORDINGS · ".repeat(6)}
+        </div>
+      </div>
       <div className="mx-auto max-w-6xl px-4 pt-10 grid gap-8 md:grid-cols-3">
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}

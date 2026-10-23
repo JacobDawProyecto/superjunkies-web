@@ -15,6 +15,7 @@ interface PlayerState {
   currentIndex: number;
   isPlaying: boolean;
   hasStarted: boolean;
+  isPreview: boolean;
   position: number;
   duration: number;
   playTrack: (index: number) => void;
@@ -45,6 +46,43 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const widgetRef = useRef<Widget>(null);
   const readyRef = useRef(false);
   const pendingAutoplay = useRef(false);
+  const currentIndexRef = useRef(0);
+
+  // Vista previa: SoundCloud limita a ~30s los temas con audio comercial
+  const isPreview = hasStarted && duration > 1 && duration <= 31000;
+
+  // Carga un tema en el widget y lo reproduce (o recarga el iframe como fallback)
+  const loadAndPlay = useCallback((index: number) => {
+    currentIndexRef.current = index;
+    setCurrentIndex(index);
+    setHasStarted(true);
+    setPosition(0);
+    setDuration(1);
+    const widget = widgetRef.current;
+    if (widget && readyRef.current) {
+      try {
+        widget.load(TRACKS[index].url, { auto_play: true });
+        setIsPlaying(true);
+        return;
+      } catch {
+        /* fallback: recargar iframe */
+      }
+    }
+    // Fallback sin Widget API: recarga el iframe con autoplay
+    pendingAutoplay.current = true;
+    if (iframeRef.current) {
+      iframeRef.current.src = TRACKS[index].embedUrl.replace(
+        "auto_play=false",
+        "auto_play=true"
+      );
+    }
+    setIsPlaying(true);
+  }, []);
+
+  const loadAndPlayRef = useRef(loadAndPlay);
+  useEffect(() => {
+    loadAndPlayRef.current = loadAndPlay;
+  }, [loadAndPlay]);
 
   // Carga la Widget API de SoundCloud una sola vez
   useEffect(() => {
@@ -67,7 +105,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         widget.bind("play", () => setIsPlaying(true));
         widget.bind("pause", () => setIsPlaying(false));
         widget.bind("finish", () => {
-          setCurrentIndex((i) => (i + 1) % TRACKS.length);
+          // Al terminar, cargar Y reproducir el siguiente (antes solo cambiaba el índice)
+          const n = (currentIndexRef.current + 1) % TRACKS.length;
+          loadAndPlayRef.current(n);
         });
       }
     };
@@ -102,45 +142,25 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const playTrack = useCallback(
     (index: number) => {
-      setCurrentIndex(index);
-      setHasStarted(true);
-      setPosition(0);
       const widget = widgetRef.current;
-      if (widget && readyRef.current && index === currentIndex) {
+      if (widget && readyRef.current && index === currentIndexRef.current) {
+        // Misma canción: reanudar sin recargar (antes la reiniciaba)
         try {
           widget.play();
           return;
         } catch {
-          /* fallback abajo */
+          /* sigue abajo y la recarga */
         }
       }
-      if (widget && readyRef.current) {
-        try {
-          widget.load(TRACKS[index].url, { auto_play: true });
-          setIsPlaying(true);
-          return;
-        } catch {
-          /* fallback: recargar iframe */
-        }
-      }
-      // Fallback sin Widget API: recarga el iframe con autoplay
-      pendingAutoplay.current = true;
-      if (iframeRef.current) {
-        const base = TRACKS[index].embedUrl.replace(
-          "auto_play=false",
-          "auto_play=true"
-        );
-        iframeRef.current.src = base;
-      }
-      setIsPlaying(true);
+      loadAndPlay(index);
     },
-    [currentIndex]
+    [loadAndPlay]
   );
 
   const toggle = useCallback(() => {
     const widget = widgetRef.current;
     if (!hasStarted) {
-      playTrack(currentIndex);
+      loadAndPlay(currentIndexRef.current);
       return;
     }
     if (widget && readyRef.current) {
@@ -153,15 +173,17 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       }
     }
     setIsPlaying((v) => !v);
-  }, [currentIndex, hasStarted, isPlaying, playTrack]);
+  }, [hasStarted, isPlaying, loadAndPlay]);
 
   const next = useCallback(() => {
-    playTrack((currentIndex + 1) % TRACKS.length);
-  }, [currentIndex, playTrack]);
+    loadAndPlay((currentIndexRef.current + 1) % TRACKS.length);
+  }, [loadAndPlay]);
 
   const prev = useCallback(() => {
-    playTrack((currentIndex - 1 + TRACKS.length) % TRACKS.length);
-  }, [currentIndex, playTrack]);
+    loadAndPlay(
+      (currentIndexRef.current - 1 + TRACKS.length) % TRACKS.length
+    );
+  }, [loadAndPlay]);
 
   const seekBy = useCallback((ratio: number) => {
     const widget = widgetRef.current;
@@ -181,6 +203,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         currentIndex,
         isPlaying,
         hasStarted,
+        isPreview,
         position,
         duration,
         playTrack,
