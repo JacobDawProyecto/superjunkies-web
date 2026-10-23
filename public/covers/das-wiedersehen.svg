@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0a0b"/>
+      <stop offset="1" stop-color="#1a1a1e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d4ff3f"/>
+      <stop offset="1" stop-color="#ff3fd4"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="500" height="500" fill="url(#bg)"/>
+  <rect width="500" height="500" fill="url(#grid)"/>
+  <ellipse cx="250" cy="180" rx="220" ry="120" fill="#d4ff3f" opacity="0.08"/>
+  <ellipse cx="250" cy="330" rx="200" ry="110" fill="#ff3fd4" opacity="0.08"/>
+  <rect x="40" y="120" width="120" height="10" fill="url(#accent)"/>
+  <text x="40" y="200" font-family="Arial Black, Arial, sans-serif" font-size="54" font-weight="900" fill="#f4f4f5">DAS</text>
+  <text x="40" y="262" font-family="Arial Black, Arial, sans-serif" font-size="54" font-weight="900" fill="#d4ff3f">WIEDER-</text>
+  <text x="40" y="324" font-family="Arial Black, Arial, sans-serif" font-size="54" font-weight="900" fill="#f4f4f5">SEHEN</text>
+  <rect x="40" y="352" width="420" height="2" fill="#ffffff" opacity="0.15"/>
+  <text x="40" y="390" font-family="Arial, sans-serif" font-size="22" letter-spacing="6" fill="#a1a1aa">SUPERJUNKIES</text>
+  <text x="40" y="420" font-family="Arial, sans-serif" font-size="16" letter-spacing="4" fill="#d4ff3f">TECHNO · 2020 · 6:18</text>
+  <rect x="0" y="0" width="500" height="500" fill="none" stroke="#d4ff3f" stroke-opacity="0.35" stroke-width="6"/>
+</svg>
