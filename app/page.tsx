@@ -19,9 +19,9 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         <Hero />
-        <Reveal>
-          <TrackGrid />
-        </Reveal>
+        {/* Sin Reveal aquí: la discografía debe verse siempre, incluso en
+            navegadores móviles donde el observer pueda fallar */}
+        <TrackGrid />
         <Reveal>
           <Playlists />
         </Reveal>

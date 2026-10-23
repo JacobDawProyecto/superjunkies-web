@@ -15,17 +15,28 @@ export default function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Sin IntersectionObserver (navegadores muy antiguos): mostrar directo
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+    // Red de seguridad: mostrar sí o sí al cabo de 2s
+    const fallback = setTimeout(() => setVisible(true), 2000);
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
+          clearTimeout(fallback);
           obs.disconnect();
         }
       },
       { threshold: 0.08 }
     );
     obs.observe(el);
-    return () => obs.disconnect();
+    return () => {
+      clearTimeout(fallback);
+      obs.disconnect();
+    };
   }, []);
 
   return (
