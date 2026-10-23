@@ -58,7 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${display.variable} ${body.variable} h-full`}>
-      <body className="min-h-full flex flex-col bg-[#0a0a0b] text-zinc-100 antialiased">
+      <body className="min-h-full flex flex-col bg-[#f6f4ec] text-[#16150f] antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

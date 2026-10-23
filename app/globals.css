@@ -1,19 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-void: #0a0a0b;
-  --color-panel: #121214;
-  --color-line: #232326;
+  --color-void: #f4f1e8;
+  --color-panel: #ffffff;
+  --color-line: #e4dfd0;
+  --color-ink: #16150f;
+  --color-muted: #6f6c5f;
   --color-lime-neon: #d4ff3f;
+  --color-leaf: #4d7c0f;
   --color-magenta-neon: #ff3fd4;
-  --color-muted: #a1a1aa;
+  --color-grape: #a21caf;
   --font-display: "Archivo Black", "Arial Black", sans-serif;
   --font-body: "Space Grotesk", system-ui, sans-serif;
 }
 
 :root {
-  --background: #0a0a0b;
-  --foreground: #f4f4f5;
+  --background: #f6f4ec;
+  --foreground: #16150f;
 }
 
 html {
@@ -33,19 +36,19 @@ body {
 
 .bg-grid {
   background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgb(22 21 15 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(22 21 15 / 0.06) 1px, transparent 1px);
   background-size: 44px 44px;
   mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 40%, transparent 100%);
 }
 
 .text-stroke {
-  -webkit-text-stroke: 1px rgb(255 255 255 / 0.25);
+  -webkit-text-stroke: 1.5px rgb(22 21 15 / 0.35);
   color: transparent;
 }
 
 .glow-lime {
-  box-shadow: 0 0 24px rgb(212 255 63 / 0.25), 0 0 64px rgb(212 255 63 / 0.12);
+  box-shadow: 0 0 24px rgb(101 163 13 / 0.35), 0 0 64px rgb(212 255 63 / 0.35);
 }
 
 @keyframes marquee {
@@ -142,21 +145,21 @@ body {
 
 ::selection {
   background: #d4ff3f;
-  color: #0a0a0b;
+  color: #16150f;
 }
 
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a0b;
+  background: #f6f4ec;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a2a2e;
+  background: #cfc9b8;
   border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #d4ff3f;
+  background: #4d7c0f;
 }
 
 /* SoundCloud iframe oculto del player global */

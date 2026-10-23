@@ -20,16 +20,16 @@ export default function Hero() {
       />
       <div className="relative mx-auto max-w-6xl px-4 pt-14 pb-10 sm:pt-20 grid gap-10 md:grid-cols-[1.1fr_0.9fr] items-center">
         <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-[#d4ff3f]/30 bg-[#d4ff3f]/10 px-3 py-1 text-xs text-[#d4ff3f]">
-            <span className="h-2 w-2 rounded-full bg-[#d4ff3f] animate-pulse-glow" />
+          <p className="inline-flex items-center gap-2 rounded-full border border-[#4d7c0f]/40 bg-[#4d7c0f]/10 px-3 py-1 text-xs font-semibold text-[#3f6212]">
+            <span className="h-2 w-2 rounded-full bg-[#4d7c0f] animate-pulse-glow" />
             {PROFILE.label} · desde {PROFILE.since} · {TRACKS.length} temas en SoundCloud
           </p>
-          <h1 className="font-display leading-[0.95] mt-4 text-[clamp(2.1rem,9vw,4.5rem)] whitespace-nowrap">
-            SUPER<span className="text-[#d4ff3f]">JUNKIES</span>
+          <h1 className="font-display leading-[0.95] mt-4 text-[#14130e] text-[clamp(2.1rem,9vw,4.5rem)] whitespace-nowrap">
+            SUPER<span className="bg-[#d4ff3f] px-2 text-black">JUNKIES</span>
             <br />
             <span className="text-stroke text-4xl sm:text-6xl">NOISE · REMIX</span>
           </h1>
-          <p className="mt-5 max-w-xl text-zinc-300">
+          <p className="mt-5 max-w-xl text-[#55534a]">
             Jacob y Adrián. Electrónica independiente, remixes caseros y edits
             de club. Sin camisetas fuera ni cuernos en alto: cabina pequeña,
             sonido grande.
@@ -43,12 +43,12 @@ export default function Hero() {
             </button>
             <a
               href="#musica"
-              className="rounded-full border border-white/20 px-6 py-3 text-zinc-100 hover:border-[#d4ff3f] hover:text-[#d4ff3f] transition"
+              className="rounded-full border border-[#14130e]/25 px-6 py-3 font-semibold text-[#14130e] hover:border-[#4d7c0f] hover:text-[#4d7c0f] transition"
             >
               Ver los {TRACKS.length} temas
             </a>
           </div>
-          <p className="mt-4 text-xs text-zinc-500">
+          <p className="mt-4 text-xs text-[#8a877a]">
             Destacado: {featured.artist} — {featured.title} ({featured.year})
           </p>
         </div>
@@ -111,7 +111,7 @@ export default function Hero() {
                     fill="none"
                   />
                 </defs>
-                <text className="fill-[#d4ff3f]" fontSize="10" fontWeight="bold" letterSpacing="2.5">
+                <text className="fill-[#14130e]" fontSize="10" fontWeight="bold" letterSpacing="2.5">
                   <textPath href="#hero-circle">
                     SUPERJUNKIES • DESDE 2004 •
                   </textPath>
@@ -122,18 +122,18 @@ export default function Hero() {
               </span>
             </button>
           </div>
-          <div className="relative mt-16 flex items-center justify-between rounded-2xl border border-white/10 bg-[#121214] px-4 py-3">
+          <div className="relative mt-16 flex items-center justify-between rounded-2xl border border-[#e3ded0] bg-white px-4 py-3 shadow-sm">
             <div>
               <p className="text-sm font-bold">SuperjunkieJack</p>
-              <p className="text-xs text-zinc-400">superjunkies · {TRACKS.length} tracks</p>
+              <p className="text-xs text-[#8a877a]">superjunkies · {TRACKS.length} tracks</p>
             </div>
             <Socials compact />
           </div>
         </div>
       </div>
       </div>
-      <div className="relative border-y border-white/10 bg-[#121214]/80 overflow-hidden">
-        <div className="animate-marquee whitespace-nowrap py-2 text-xs tracking-[0.25em] text-zinc-400">
+      <div className="relative border-y border-[#e3ded0] bg-white/70 overflow-hidden">
+        <div className="animate-marquee whitespace-nowrap py-2 text-xs tracking-[0.25em] text-[#8a877a]">
           {Array.from({ length: 2 }).map((_, k) => (
             <span key={k}>
               {"REMIX · EDIT · MIXTAPE · INDIE · ELECTRÓNICA · DESDE 2004 · NOSOTROSMISMOSRECORDINGS · ".repeat(3)}

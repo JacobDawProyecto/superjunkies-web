@@ -27,15 +27,15 @@ export default function TrackGrid() {
     <section id="musica" className="mx-auto max-w-6xl px-4 py-14 scroll-mt-16">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs tracking-[0.3em] text-[#d4ff3f]">DISCOGRAFÍA COMPLETA</p>
-          <h2 className="font-display text-3xl sm:text-5xl mt-2">
-            TODA LA MÚSICA<span className="text-[#d4ff3f]">.</span>
+          <p className="text-xs font-semibold tracking-[0.3em] text-[#4d7c0f]">DISCOGRAFÍA COMPLETA</p>
+          <h2 className="font-display text-3xl sm:text-5xl mt-2 text-[#14130e]">
+            TODA LA MÚSICA<span className="text-[#4d7c0f]">.</span>
           </h2>
-          <p className="mt-2 text-sm text-zinc-400">
+          <p className="mt-2 text-sm text-[#55534a]">
             Los {TRACKS.length} temas de tu SoundCloud. Pulsa play para escucharlos aquí
             (reproductor custom) o ábrelos en SoundCloud.
           </p>
-          <p className="mt-2 text-xs text-zinc-500">
+          <p className="mt-2 text-xs text-[#8a877a]">
             Nota: SoundCloud limita a vista previa de 0:30 los remixes con audio
             comercial (Coldplay, Apparat…). Si un tema marca “VISTA PREVIA” en el
             reproductor, es restricción de SoundCloud, no de esta web.
@@ -45,7 +45,7 @@ export default function TrackGrid() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar: apparat, yellow, dirties…"
-          className="w-full sm:w-72 rounded-full border border-white/15 bg-[#121214] px-4 py-2.5 text-sm outline-none placeholder:text-zinc-500 focus:border-[#d4ff3f]"
+          className="w-full sm:w-72 rounded-full border border-[#d8d3c2] bg-white px-4 py-2.5 text-sm text-[#16150f] outline-none placeholder:text-[#a09d8f] focus:border-[#4d7c0f] shadow-sm"
           aria-label="Buscar temas"
         />
       </div>
@@ -57,8 +57,8 @@ export default function TrackGrid() {
             onClick={() => setFilter(f)}
             className={`rounded-full px-4 py-1.5 text-sm border transition ${
               filter === f
-                ? "bg-[#d4ff3f] text-black font-bold border-[#d4ff3f]"
-                : "border-white/15 text-zinc-300 hover:border-[#d4ff3f] hover:text-[#d4ff3f]"
+                ? "bg-[#14130e] text-[#d4ff3f] font-bold border-[#14130e]"
+                : "border-[#d8d3c2] bg-white text-[#4a483f] hover:border-[#4d7c0f] hover:text-[#4d7c0f]"
             }`}
           >
             {f}
@@ -72,10 +72,10 @@ export default function TrackGrid() {
           return (
             <article
               key={t.id}
-              className={`card-enter group overflow-hidden rounded-2xl border bg-[#121214] transition hover:-translate-y-1 ${
+              className={`card-enter group overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md ${
                 currentIndex === t.index
-                  ? "border-[#d4ff3f]/60"
-                  : "border-white/10 hover:border-white/25"
+                  ? "border-[#4d7c0f]/60"
+                  : "border-[#e5e1d5] hover:border-[#c9c3b0]"
               }`}
               style={{ animationDelay: `${(i % 12) * 60}ms` }}
             >
@@ -112,13 +112,13 @@ export default function TrackGrid() {
                 )}
               </div>
               <div className="p-4">
-                <p className="text-xs text-zinc-400 truncate">{t.artist}</p>
-                <h3 className="mt-1 font-bold leading-snug">{t.title}</h3>
-                <p className="mt-1 text-xs text-zinc-500">{t.tag}</p>
+                <p className="text-xs text-[#6b695e] truncate">{t.artist}</p>
+                <h3 className="mt-1 font-bold leading-snug text-[#14130e]">{t.title}</h3>
+                <p className="mt-1 text-xs text-[#8a877a]">{t.tag}</p>
                 <div className="mt-3 flex gap-2">
                   <button
                     onClick={() => playTrack(t.index)}
-                    className="flex-1 rounded-full bg-white/10 px-3 py-2 text-sm font-semibold hover:bg-[#d4ff3f] hover:text-black transition"
+                    className="flex-1 rounded-full bg-[#14130e]/5 px-3 py-2 text-sm font-semibold text-[#14130e] hover:bg-[#d4ff3f] hover:text-black transition"
                   >
                     {currentIndex === t.index && isPlaying ? "Pausar" : "Escuchar aquí"}
                   </button>
@@ -126,7 +126,7 @@ export default function TrackGrid() {
                     href={t.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full border border-white/15 px-3 py-2 text-sm text-zinc-300 hover:border-[#ff5500] hover:text-[#ff5500] transition"
+                    className="rounded-full border border-[#d8d3c2] px-3 py-2 text-sm text-[#4a483f] hover:border-[#ff5500] hover:text-[#ff5500] transition"
                     aria-label={`Abrir ${t.title} en SoundCloud`}
                   >
                     ↗
@@ -138,7 +138,7 @@ export default function TrackGrid() {
         })}
       </div>
       {list.length === 0 && (
-        <p className="mt-8 rounded-2xl border border-white/10 bg-[#121214] p-6 text-center text-zinc-400">
+        <p className="mt-8 rounded-2xl border border-[#e5e1d5] bg-white p-6 text-center text-[#6b695e]">
           Sin resultados. Prueba con “remix”, “edit” o “mixtape”.
         </p>
       )}
