@@ -9,13 +9,14 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { TRACKS } from "@/lib/tracks";
+import { TRACKS, FEATURED_TRACK_INDEX } from "@/lib/tracks";
 
 interface PlayerState {
   currentIndex: number;
   isPlaying: boolean;
   hasStarted: boolean;
   isPreview: boolean;
+  needsGesture: boolean;
   position: number;
   duration: number;
   playTrack: (index: number) => void;
@@ -37,16 +38,19 @@ export function usePlayer(): PlayerState {
 type Widget = any;
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(FEATURED_TRACK_INDEX);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [needsGesture, setNeedsGesture] = useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(1);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const widgetRef = useRef<Widget>(null);
   const readyRef = useRef(false);
   const pendingAutoplay = useRef(false);
-  const currentIndexRef = useRef(0);
+  const currentIndexRef = useRef(FEATURED_TRACK_INDEX);
+  const playingRef = useRef(false);
+  const autoAttempted = useRef(false);
 
   // Vista previa: SoundCloud limita a ~30s los temas con audio comercial
   const isPreview = hasStarted && duration > 1 && duration <= 31000;
@@ -97,13 +101,29 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         widgetRef.current = widget;
         widget.bind("ready", () => {
           readyRef.current = true;
-          if (pendingAutoplay.current) {
+          if (!autoAttempted.current) {
+            // Primer arranque: intentar autoplay del tema destacado.
+            // Los navegadores lo bloquean sin interacción previa: en ese
+            // caso se muestra el botón grande para arrancarlo con un toque.
+            autoAttempted.current = true;
+            loadAndPlayRef.current(FEATURED_TRACK_INDEX);
+            setTimeout(() => {
+              if (!playingRef.current) setNeedsGesture(true);
+            }, 2500);
+          } else if (pendingAutoplay.current) {
             pendingAutoplay.current = false;
             widget.play();
           }
         });
-        widget.bind("play", () => setIsPlaying(true));
-        widget.bind("pause", () => setIsPlaying(false));
+        widget.bind("play", () => {
+          playingRef.current = true;
+          setIsPlaying(true);
+          setNeedsGesture(false);
+        });
+        widget.bind("pause", () => {
+          playingRef.current = false;
+          setIsPlaying(false);
+        });
         widget.bind("finish", () => {
           // Al terminar, cargar Y reproducir el siguiente (antes solo cambiaba el índice)
           const n = (currentIndexRef.current + 1) % TRACKS.length;
@@ -204,6 +224,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         isPlaying,
         hasStarted,
         isPreview,
+        needsGesture,
         position,
         duration,
         playTrack,
@@ -220,7 +241,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         title="SoundCloud player"
         className="sc-hidden-frame"
         allow="autoplay"
-        src={TRACKS[0].embedUrl}
+        src={TRACKS[FEATURED_TRACK_INDEX].embedUrl.replace(
+          "auto_play=false",
+          "auto_play=true"
+        )}
       />
     </PlayerContext.Provider>
   );

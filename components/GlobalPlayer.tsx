@@ -1,7 +1,7 @@
 "use client";
 
 import { usePlayer } from "./PlayerProvider";
-import { TRACKS } from "@/lib/tracks";
+import { TRACKS, FEATURED_TRACK_INDEX } from "@/lib/tracks";
 
 function fmt(ms: number): string {
   const s = Math.floor(ms / 1000);
@@ -28,17 +28,41 @@ export default function GlobalPlayer() {
     isPlaying,
     hasStarted,
     isPreview,
+    needsGesture,
     position,
     duration,
     toggle,
     next,
     prev,
     seekBy,
+    playTrack,
   } = usePlayer();
   const track = TRACKS[currentIndex];
+  const featured = TRACKS[FEATURED_TRACK_INDEX];
   const ratio = Math.min(1, position / Math.max(1, duration));
 
   return (
+    <>
+      {needsGesture && !isPlaying && (
+        <div className="fixed bottom-24 inset-x-0 z-50 flex justify-center px-4">
+          <button
+            onClick={() => playTrack(FEATURED_TRACK_INDEX)}
+            className="card-enter flex items-center gap-3 rounded-2xl border-2 border-[#14130e] bg-[#d4ff3f] px-5 py-3.5 text-left shadow-2xl transition hover:scale-105"
+          >
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-black text-xl text-[#d4ff3f] animate-bounce-soft">
+              ▶
+            </span>
+            <span>
+              <span className="block text-sm font-black text-black">
+                Dale al play 🎧
+              </span>
+              <span className="block text-xs font-semibold text-black/70">
+                {featured.artist} — {featured.title} suena al abrir (tu navegador pide un toque)
+              </span>
+            </span>
+          </button>
+        </div>
+      )}
     <div className="fixed bottom-0 inset-x-0 z-50 border-t border-[#232326] bg-[#0a0a0b]/95 backdrop-blur-md">
       <div
         className="h-[3px] w-full bg-white/10 cursor-pointer group"
@@ -117,5 +141,6 @@ export default function GlobalPlayer() {
         </div>
       </div>
     </div>
+    </>
   );
 }

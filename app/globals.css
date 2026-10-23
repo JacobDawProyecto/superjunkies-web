@@ -136,8 +136,32 @@ body {
   animation: bounce-soft 1.8s ease-in-out infinite;
 }
 
+@keyframes drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(90px, 60px) scale(1.15); }
+}
+.animate-drift-1 {
+  animation: drift-1 22s ease-in-out infinite;
+}
+
+@keyframes drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1.1); }
+  50% { transform: translate(-100px, 80px) scale(0.95); }
+}
+.animate-drift-2 {
+  animation: drift-2 26s ease-in-out infinite;
+}
+
+@keyframes drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(0.95); }
+  50% { transform: translate(70px, -70px) scale(1.12); }
+}
+.animate-drift-3 {
+  animation: drift-3 24s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee, .animate-marquee-reverse, .animate-pulse-glow, .animate-spin-slow, .animate-float, .animate-wiggle, .animate-gradient, .animate-bounce-soft, .eq-bar, .card-enter {
+  .animate-marquee, .animate-marquee-reverse, .animate-pulse-glow, .animate-spin-slow, .animate-float, .animate-wiggle, .animate-gradient, .animate-bounce-soft, .animate-drift-1, .animate-drift-2, .animate-drift-3, .eq-bar, .card-enter {
     animation: none;
   }
   html { scroll-behavior: auto; }

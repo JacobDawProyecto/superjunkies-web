@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PROFILE, TRACKS } from "@/lib/tracks";
+import Backdrop from "@/components/Backdrop";
 
 export const metadata = {
   title: "Press kit — Superjunkies",
@@ -10,6 +11,7 @@ export const metadata = {
 export default function EpkPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 pt-20 pb-16">
+      <Backdrop />
       <Link href="/" className="text-sm text-[#6b695e] hover:text-[#4d7c0f]">
         ← Volver a la web
       </Link>

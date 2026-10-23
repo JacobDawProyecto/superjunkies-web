@@ -7,12 +7,14 @@ import Booking from "@/components/Booking";
 import Footer from "@/components/Footer";
 import GlobalPlayer from "@/components/GlobalPlayer";
 import CursorGlow from "@/components/CursorGlow";
+import Backdrop from "@/components/Backdrop";
 import Reveal from "@/components/Reveal";
 import { PlayerProvider } from "@/components/PlayerProvider";
 
 export default function Home() {
   return (
     <PlayerProvider>
+      <Backdrop />
       <CursorGlow />
       <Navbar />
       <main className="flex-1">

@@ -361,6 +361,13 @@ export const TRACKS: Track[] = [
   },
 ];
 
+// Tema que suena al abrir la web
+export const FEATURED_TRACK_ID = "the-tunnel";
+export const FEATURED_TRACK_INDEX = Math.max(
+  0,
+  TRACKS.findIndex((t) => t.id === FEATURED_TRACK_ID)
+);
+
 export interface Playlist {
   title: string;
   url: string;

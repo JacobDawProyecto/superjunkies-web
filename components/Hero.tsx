@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { PROFILE, TRACKS } from "@/lib/tracks";
+import { PROFILE, TRACKS, FEATURED_TRACK_INDEX } from "@/lib/tracks";
 import { usePlayer } from "./PlayerProvider";
 import Socials from "./Socials";
 
 export default function Hero() {
   const { playTrack, currentIndex, isPlaying } = usePlayer();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const featured = TRACKS[0];
+  const featured = TRACKS[FEATURED_TRACK_INDEX];
 
   return (
     <section id="top" className="relative overflow-hidden pt-14">
@@ -36,10 +36,10 @@ export default function Hero() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <button
-              onClick={() => playTrack(0)}
+              onClick={() => playTrack(FEATURED_TRACK_INDEX)}
               className="rounded-full bg-[#d4ff3f] px-6 py-3 font-bold text-black hover:brightness-110 transition glow-lime"
             >
-              {currentIndex === 0 && isPlaying ? "⏸ Pausando destacado" : "▶ Escuchar lo último"}
+              {currentIndex === FEATURED_TRACK_INDEX && isPlaying ? "⏸ Pausando destacado" : "▶ Escuchar The Tunnel"}
             </button>
             <a
               href="#musica"
@@ -99,7 +99,7 @@ export default function Hero() {
             </span>
             {/* Insignia giratoria: play del destacado */}
             <button
-              onClick={() => playTrack(0)}
+              onClick={() => playTrack(FEATURED_TRACK_INDEX)}
               aria-label="Escuchar tema destacado"
               className="absolute -bottom-10 -right-2 h-28 w-28 transition hover:scale-110 sm:-right-5"
             >
@@ -118,7 +118,7 @@ export default function Hero() {
                 </text>
               </svg>
               <span className="absolute inset-0 m-auto grid h-12 w-12 place-items-center rounded-full bg-[#d4ff3f] text-xl text-black glow-lime">
-                {currentIndex === 0 && isPlaying ? "⏸" : "▶"}
+                {currentIndex === FEATURED_TRACK_INDEX && isPlaying ? "⏸" : "▶"}
               </span>
             </button>
           </div>
